@@ -39,6 +39,7 @@
 2. **homePage.ts** - Page object for home page interactions
 3. **overlappedPage.ts** - Page object for overlapped element scenarios
 4. **visibilityPage.ts** - Page object for visibility testing scenarios
+5. **dynamicTablePage.ts** - Page object for dynamic table interactions and data validation
 
 ## Setup Instructions
 1. Navigate to the e2e directory
@@ -79,3 +80,64 @@
 - Each test verifies both URL navigation and page heading content
 - Tests utilize existing HomePage page object methods for consistency
 - Enhanced test coverage for critical user navigation flows
+
+### 2025-10-05 - Created Dynamic Table Page Object Model
+- **Created dynamicTablePage.ts** based on DynamicTable.pug template analysis
+- **Key Features Implemented:**
+  - ARIA-compliant table element selection (role="table", "columnheader", "cell", "row")
+  - Dynamic column header extraction and indexing
+  - Complete table data extraction as 2D array
+  - Process-specific row retrieval by name matching
+  - CPU value extraction for specific processes (especially Chrome)
+  - Chrome CPU comparison between table data and warning label
+  - Table structure validation and loading state management
+- **Methods Available:**
+  - `getColumnHeaders()` - Returns array of column names
+  - `getTableData()` - Returns complete table as 2D string array  
+  - `getRowByProcessName()` - Finds and returns specific process row
+  - `getCpuValueForProcess()` - Gets CPU value for named process
+  - `getChromeCpuFromLabel()` - Extracts Chrome CPU from warning label
+  - `compareChromeCpuValues()` - Validates table vs label CPU values match
+  - `verifyTableStructure()` - Confirms proper ARIA table structure
+- **Designed for Test Scenario:** Chrome CPU validation between dynamic table and warning label
+- **Supports:** Dynamic content with changing column/row positions on page reload
+
+### 2025-10-05 - Dynamic Table Test Suite Implementation
+- **Created dynamicTable.spec.ts** - Comprehensive test suite for Dynamic Table functionality
+- **Test Categories Implemented:**
+  - **Navigation Tests:** Page loading and URL validation
+  - **Structure Tests:** ARIA compliance, table headers, data integrity
+  - **Data Extraction Tests:** Column headers, table data, row/column counts
+  - **Process Detection Tests:** Chrome process identification and CPU extraction
+  - **Label Validation Tests:** Warning label visibility and CPU value extraction
+  - **Main Scenario Test:** **Chrome CPU table vs label comparison** (primary requirement)
+  - **Dynamic Content Tests:** Page reload behavior with random data
+  - **Error Handling Tests:** Graceful failure for non-existent processes
+- **Key Test Features:**
+  - Uses `@dynamictable` tag for test organization
+  - Comprehensive ARIA attribute validation 
+  - Data consistency checks across reloads
+  - Robust error handling verification
+  - Critical CPU value matching assertion
+- **Total Tests:** 12 comprehensive test cases covering all Dynamic Table functionality
+
+### 2025-10-05 - TypeScript Best Practices Update
+- **Removed unnecessary Promise type annotations** from dynamicTablePage.ts async methods
+- **Best Practice Note:** Never use `Promise<Type>` annotations with async methods in TypeScript
+  - Async functions automatically return Promise-wrapped types
+  - TypeScript infers the correct return type from async function content
+  - Explicit Promise typing is redundant and adds unnecessary verbosity
+  - Cleaner code: `async getHeaders()` vs `async getHeaders(): Promise<string[]>`
+
+### 2025-10-05 - Page Object Model Best Practices Refactor
+- **Moved assertions from Page Object to Test File**: Removed `verifyTableStructure()` from DynamicTablePage
+- **Best Practice Established:** Page Object Methods should only return data, never perform assertions
+  - **Page Objects:** Should contain element locators and data extraction methods
+  - **Test Files:** Should contain all assertions and expectations using `expect()`
+  - **Rationale:** Separates concerns - page objects handle "what" and "how to get", tests handle "what should be"
+  - **Before:** `const isValid = await page.verifyStructure(); expect(isValid).toBeTruthy();`
+  - **After:** `await expect(page.table).toBeVisible(); expect(await page.headers.count()).toBeGreaterThan(0);`
+- **Benefits:** 
+  - Clearer test failures with specific assertion details
+  - Page objects remain focused on element interaction
+  - Better maintainability and debugging capabilities
