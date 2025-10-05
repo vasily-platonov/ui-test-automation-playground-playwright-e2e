@@ -1,0 +1,81 @@
+# UI Test Automation Playground E2E Tests - Agent Log
+
+## Project Overview
+**Purpose**: E2E test suite for the UI Test Automation Playground web application using Playwright
+**Created**: October 5, 2025
+**Framework**: Playwright with TypeScript
+**Target Application**: UI Test Automation Playground (http://uitestingplayground.com)
+
+## Project Structure
+
+### Key Directories:
+- `/tests/` - Test specifications
+- `/pages/` - Page Object Model implementations
+- `/test-results/` - Test execution results
+- `/playwright-report/` - HTML test reports
+
+### Dependencies:
+- `@playwright/test`: ^1.55.1 (Main testing framework)
+- `@types/node`: ^24.6.2 (Node.js type definitions)
+- `dotenv`: ^17.2.3 (Environment variable management)
+
+### Configuration:
+- **Base URL**: http://localhost:3000 (configurable via BASE_URL env var)
+- **Browser**: Chromium (Desktop Chrome)
+- **Test Runner**: Fully parallel execution
+- **Reporter**: HTML reports
+- **Retry Strategy**: 2 retries on CI, 0 locally
+
+## Current Test Coverage
+
+### Existing Test Files:
+1. **ajax.spec.ts** - Tests for AJAX interactions
+2. **base.spec.ts** - Base/foundation tests
+3. **overlapped.spec.ts** - Tests for overlapped elements
+4. **visibility.spec.ts** - Tests for element visibility scenarios
+
+### Page Objects:
+1. **ajaxPage.ts** - Page object for AJAX-related scenarios
+2. **homePage.ts** - Page object for home page interactions
+3. **overlappedPage.ts** - Page object for overlapped element scenarios
+4. **visibilityPage.ts** - Page object for visibility testing scenarios
+
+## Setup Instructions
+1. Navigate to the e2e directory
+2. Run `npm install` to install dependencies
+3. Ensure the main application is running on localhost:3000
+4. Execute tests with `npx playwright test`
+5. View reports with `npx playwright show-report`
+
+## Current Branch
+- **Working Branch**: add-visibility-tests
+- **Default Branch**: main
+- **Repository**: vasily-platonov/ui-test-automation-playground-playwright-e2e
+
+## Development Notes
+- Uses Page Object Model pattern for maintainable test code
+- Configured for CI/CD with appropriate retry and worker settings
+- Visual regression testing capabilities (snapshots in visibility tests)
+- Environment-based configuration for different testing environments
+
+---
+## Change Log
+
+### 2025-10-05 - Project Initialization
+- Created agent log file for e2e test suite tracking
+- Documented current project structure and configuration
+- Identified existing test coverage and page objects
+- Established baseline for future development tracking
+
+### 2025-10-05 - Enhanced Navigation Link Testing
+- **Added 7 new navigation tests** in base.spec.ts to validate home page links
+  - AJAX Data link test (validates navigation to /ajax)
+  - Text Input link test (validates navigation to /textinput)
+  - Dynamic Table link test (validates navigation to /dynamictable)
+  - Progress Bar link test (validates navigation to /progressbar)
+  - Visibility link test (validates navigation to /visibility)
+  - Sample App link test (validates navigation to /sampleapp)
+  - Overlapped Element link test (validates navigation to /overlapped)
+- Each test verifies both URL navigation and page heading content
+- Tests utilize existing HomePage page object methods for consistency
+- Enhanced test coverage for critical user navigation flows
