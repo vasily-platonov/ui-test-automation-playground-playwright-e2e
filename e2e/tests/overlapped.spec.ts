@@ -9,6 +9,11 @@ test.describe("Overlapped Element Tests", { tag: "@overlapped" }, () => {
     await overlappedPage.goto();
   });
 
+  test("should load overlapped page with correct title", async () => {
+    // Verify page title
+    await expect(overlappedPage.title).toContainText("Overlapped Element");
+  });
+
   test("should load overlapped page with correct elements", async () => {
     // Verify page title and description
     await expect(overlappedPage.title).toContainText("Overlapped Element");
