@@ -40,6 +40,7 @@
 3. **overlappedPage.ts** - Page object for overlapped element scenarios
 4. **visibilityPage.ts** - Page object for visibility testing scenarios
 5. **dynamicTablePage.ts** - Page object for dynamic table interactions and data validation
+6. **sampleAppPage.ts** - Page object for login form interactions and authentication testing
 
 ## Setup Instructions
 1. Navigate to the e2e directory
@@ -137,7 +138,37 @@
   - **Rationale:** Separates concerns - page objects handle "what" and "how to get", tests handle "what should be"
   - **Before:** `const isValid = await page.verifyStructure(); expect(isValid).toBeTruthy();`
   - **After:** `await expect(page.table).toBeVisible(); expect(await page.headers.count()).toBeGreaterThan(0);`
+- **Additional POM Principle:** Page Objects should not contain test scenario logic
+  - **Page Objects:** Provide basic actions (`login(user, pass)`, `fillField()`, `clickButton()`)
+  - **Test Files:** Define specific scenarios (`login("validUser", "pwd")`, `login("", "wrong")`)
+  - **Rationale:** Keeps page objects generic and reusable for any test scenario
+  - **Violation:** `loginSuccessfully()`, `loginWithInvalidCredentials()` in page objects
+  - **Correct:** Basic `login(username, password)` method, tests define what constitutes valid/invalid
 - **Benefits:** 
   - Clearer test failures with specific assertion details
   - Page objects remain focused on element interaction
   - Better maintainability and debugging capabilities
+
+### 2025-10-05 - Sample App Page Object Model Creation
+- **Created sampleAppPage.ts** based on SampleApp.pug template analysis
+- **Key Features Implemented:**
+  - **Dynamic ID Handling:** Uses stable selectors (name attributes) instead of dynamic JS-generated IDs
+  - **Login/Logout State Management:** Methods to detect current authentication state
+  - **Form Interaction Methods:** Username/password filling, form clearing, value retrieval
+  - **Authentication Workflows:** Success/failure login scenarios with proper credentials
+  - **Status Validation:** Login status text and CSS class checking for different states
+- **Methods Available:**
+  - `login(username, password)` - Complete login workflow
+  - `loginSuccessfully()` - Uses valid credentials (any username + "pwd")
+  - `loginWithInvalidCredentials()` - Uses invalid credentials for negative testing
+  - `logout()` - Logout if currently authenticated
+  - `getLoginStatus()` - Extract current status message
+  - `isLoggedIn()` - Check authentication state via button text
+  - `getLoginStatusClass()` - Get CSS classes (text-success, text-danger, text-info)
+  - `waitForStatusChange()` - Wait for status updates after login attempts
+- **Designed for Test Scenarios:** 
+  - Valid login with any non-empty username and password "pwd"
+  - Invalid login attempts with wrong credentials
+  - Logout functionality verification
+  - Status message validation for different authentication states
+- **Handles Edge Cases:** Dynamic element IDs, form state management, status transitions
