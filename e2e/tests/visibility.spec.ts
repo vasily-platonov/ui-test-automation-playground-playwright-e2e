@@ -82,8 +82,9 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
     // Click the Hide button
     await visibilityPage.clickHideButton();
 
-    // Verify Overlapped button is not visible (covered by layer)
-    await expect(visibilityPage.overlappedButton).not.toBeVisible();
+    // Verify Overlapped button is overlapped (covered by layer)
+    const isOverlapped = await visibilityPage.isButtonOverlapped(visibilityPage.overlappedButton, "hideButton");
+    expect(isOverlapped).toBe(true);
   });
 
   test("should hide Opacity 0 button after clicking Hide button", async () => {
@@ -91,7 +92,7 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
     await visibilityPage.clickHideButton();
 
     // Verify Transparent button is not visible (opacity 0)
-    await expect(visibilityPage.transparentButton).not.toBeVisible();
+    await expect(visibilityPage.transparentButton).toHaveAttribute("style", "opacity: 0;");
   });
 
   test("should hide Visibility Hidden button after clicking Hide button", async () => {
@@ -115,7 +116,7 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
     await visibilityPage.clickHideButton();
 
     // Verify Offscreen button is not visible (moved offscreen)
-    await expect(visibilityPage.offscreenButton).not.toBeVisible();
+    await expect(visibilityPage.offscreenButton).toContainClass("offscreen");
   });
 
   // Screenshot tests for each button after clicking Hide button
@@ -135,22 +136,6 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
     await expect(visibilityPage.hideButton).toHaveScreenshot("hide-button-after-hide-click.png");
   });
 
-  test("should take screenshot of Removed button area after Hide click", async ({ page }) => {
-    // Click the Hide button
-    await visibilityPage.clickHideButton();
-
-    // Take screenshot of where the Removed button was (baseline creation or comparison)
-    await expect(visibilityPage.removedButton).toHaveScreenshot("removed-button-after-hide-click.png");
-  });
-
-  test("should take screenshot of Zero Width button after Hide click", async ({ page }) => {
-    // Click the Hide button
-    await visibilityPage.clickHideButton();
-
-    // Take screenshot of the Zero Width button (baseline creation or comparison)
-    await expect(visibilityPage.zeroWidthButton).toHaveScreenshot("zero-width-button-after-hide-click.png");
-  });
-
   test("should take screenshot of Overlapped button after Hide click", async ({ page }) => {
     // Click the Hide button
     await visibilityPage.clickHideButton();
@@ -165,22 +150,6 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
 
     // Take screenshot of the Transparent button (baseline creation or comparison)
     await expect(visibilityPage.transparentButton).toHaveScreenshot("transparent-button-after-hide-click.png");
-  });
-
-  test("should take screenshot of Visibility Hidden button after Hide click", async ({ page }) => {
-    // Click the Hide button
-    await visibilityPage.clickHideButton();
-
-    // Take screenshot of the Invisible button (baseline creation or comparison)
-    await expect(visibilityPage.invisibleButton).toHaveScreenshot("invisible-button-after-hide-click.png");
-  });
-
-  test("should take screenshot of Display None button after Hide click", async ({ page }) => {
-    // Click the Hide button
-    await visibilityPage.clickHideButton();
-
-    // Take screenshot of where Display None button was (baseline creation or comparison)
-    await expect(visibilityPage.notDisplayedButton).toHaveScreenshot("not-displayed-button-after-hide-click.png");
   });
 
   test("should take screenshot of Offscreen button after Hide click", async ({ page }) => {

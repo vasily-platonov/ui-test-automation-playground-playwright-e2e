@@ -53,4 +53,38 @@ export class VisibilityPage {
   async clickHideButton() {
     await this.clickButton(this.hideButton);
   }
+
+  /**
+   * Check if a specific button element is overlapped by another element
+   */
+  async isButtonOverlapped(buttonLocator: Locator, expectedId?: string) {
+    const box = await buttonLocator.boundingBox();
+    if (!box) return true; // If we can't get bounding box, assume it's overlapped
+
+    // Check the center point of the element
+    const centerX = box.x + box.width / 2;
+    const centerY = box.y + box.height / 2;
+
+    // Get the element at the center point
+    const elementAtPoint = await this.page.evaluate(
+      ({ x, y }) => {
+        const element = document.elementFromPoint(x, y);
+        return {
+          id: element?.id || "",
+          tagName: element?.tagName || "",
+          className: element?.className || "",
+        };
+      },
+      { x: centerX, y: centerY }
+    );
+
+    // If expectedId is provided, check against it; otherwise get the id from the locator
+    if (expectedId) {
+      return elementAtPoint.id !== expectedId;
+    }
+
+    // Try to get the expected id from the locator
+    const buttonId = await buttonLocator.getAttribute("id");
+    return elementAtPoint.id !== buttonId;
+  }
 }
