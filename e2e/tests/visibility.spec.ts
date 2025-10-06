@@ -128,7 +128,7 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
   // COMPARISON RUNS:
   // Run normally with: npx playwright test visibility.spec.ts
   // This compares current screenshots against baselines and fails if different
-  test("should take screenshot of Hide button after Hide click", async ({ page }) => {
+  test("should take screenshot of Hide button after Hide click", { tag: "@snapshot" }, async ({ page }) => {
     // Click the Hide button
     await visibilityPage.clickHideButton();
 
@@ -136,7 +136,7 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
     await expect(visibilityPage.hideButton).toHaveScreenshot("hide-button-after-hide-click.png");
   });
 
-  test("should take screenshot of Overlapped button after Hide click", { tag: "@mainScenario" }, async ({ page }) => {
+  test("should take screenshot of Overlapped button after Hide click", { tag: ["@mainScenario", "@snapshot"] }, async ({ page }) => {
     // Click the Hide button
     await visibilityPage.clickHideButton();
 
@@ -144,7 +144,7 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
     await expect(visibilityPage.overlappedButton).toHaveScreenshot("overlapped-button-after-hide-click.png");
   });
 
-  test("should take screenshot of Opacity 0 button after Hide click", { tag: "@mainScenario" }, async ({ page }) => {
+  test("should take screenshot of Opacity 0 button after Hide click", { tag: ["@mainScenario", "@snapshot"] }, async ({ page }) => {
     // Click the Hide button
     await visibilityPage.clickHideButton();
 
@@ -152,7 +152,7 @@ test.describe("Visibility Page Tests", { tag: "@visibility" }, () => {
     await expect(visibilityPage.transparentButton).toHaveScreenshot("transparent-button-after-hide-click.png");
   });
 
-  test("should take screenshot of Offscreen button after Hide click", { tag: "@mainScenario" }, async ({ page }) => {
+  test("should take screenshot of Offscreen button after Hide click", { tag: ["@mainScenario", "@snapshot"] }, async ({ page }) => {
     // Click the Hide button
     await visibilityPage.clickHideButton();
 
