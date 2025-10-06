@@ -47,8 +47,6 @@ export class OverlappedPage {
         const element = document.elementFromPoint(x, y);
         return {
           id: element?.id || "",
-          tagName: element?.tagName || "",
-          className: element?.className || "",
         };
       },
       { x: centerX, y: centerY }
