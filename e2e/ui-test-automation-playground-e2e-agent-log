@@ -514,3 +514,80 @@
 - **Test Reliability:** More predictable test behavior with simplified assertion logic
 
 **Branch Status:** All changes committed and ready for merge with comprehensive refactoring complete
+
+### 2025-10-07 - Branch add-main-scenario-tags: UI Test Automation Playground Main Scenarios Identification
+- **Branch Purpose:** Strategic test organization by identifying and tagging core UITAP scenarios for focused test execution
+- **Enhancement:** Added `@mainScenario` tag to tests representing primary UI automation challenges from the UI Test Automation Playground
+
+#### **Main Scenario Tags Applied Across Test Suites:**
+
+**1. Ajax.spec.ts (1 main scenario):**
+- `"should trigger ajax request and load content"` - Core AJAX loading and content verification challenge
+
+**2. DynamicTable.spec.ts (1 main scenario):**
+- `"Chrome CPU value in table should equal value in warning label"` - Primary table data extraction and comparison challenge
+
+**3. Overlapped.spec.ts (1 main scenario):**
+- `"should fill name field successfully"` - Core overlapped element interaction challenge
+
+**4. ProgressBar.spec.ts (2 main scenarios):**
+- `"should use playwright .toPass assertion to wait for target progress"` - Precision timing challenge using Playwright assertions
+- `"should use POM waitForProgress method to wait for target progress"` - Precision timing challenge using POM methods
+
+**5. SampleApp.spec.ts (2 main scenarios):**
+- `"should login successfully with valid credentials"` - Primary authentication success scenario
+- `"should handle invalid password"` - Primary authentication failure scenario
+
+**6. TextInput.spec.ts (3 main scenarios):**
+- `"should update button text when using DOM fill method"` - DOM events vs keyboard input challenge (DOM approach)
+- `"should update button text when using keyboard input method"` - DOM events vs keyboard input challenge (keyboard approach)
+- `"should handle special characters in button name"` - Edge case handling in text input scenarios
+
+**7. Visibility.spec.ts (12 main scenarios):**
+- **Core Visibility Tests (8 scenarios):** All button hiding mechanism tests covering different CSS visibility approaches:
+  - Hide button behavior validation
+  - Removed button (DOM removal)
+  - Zero Width button (width manipulation)
+  - Overlapped button (z-index/positioning)
+  - Opacity 0 button (transparency)
+  - Visibility Hidden (CSS visibility property)
+  - Display None (CSS display property)
+  - Offscreen button (positioning outside viewport)
+- **Visual Regression Tests (3 scenarios):** Screenshot-based validation for:
+  - Overlapped button visual state
+  - Opacity 0 button visual state
+  - Offscreen button visual state
+
+#### **Strategic Benefits:**
+
+**1. Focused Test Execution:**
+- **Command:** `npx playwright test --grep "@mainScenario"` to run only core UITAP challenges
+- **Selective Testing:** Enables quick validation of primary automation scenarios
+- **CI/CD Integration:** Can be used for smoke tests or critical path validation
+
+**2. Test Suite Organization:**
+- **Core vs Auxiliary:** Clear distinction between main UITAP challenges and supporting tests
+- **Learning Path:** New automation engineers can focus on primary scenarios first
+- **Training Material:** Main scenarios serve as key examples for UI automation concepts
+
+**3. Quality Assurance Prioritization:**
+- **Critical Coverage:** Ensures core UITAP functionality is always validated
+- **Regression Testing:** Main scenarios can be prioritized for regression suites
+- **Release Validation:** Essential scenarios for pre-release testing
+
+**4. UITAP Challenge Mapping:**
+- **Ajax Challenge:** Dynamic content loading and timing
+- **Dynamic Table:** Data extraction from complex table structures
+- **Overlapped Elements:** Handling UI element interference
+- **Progress Bar:** Precision timing and progress monitoring
+- **Sample App:** Authentication workflows and form handling
+- **Text Input:** DOM events vs real user input differentiation
+- **Visibility:** Comprehensive element visibility and hiding mechanisms
+
+#### **Implementation Details:**
+- **Total Main Scenarios:** 21 tests across 7 test suites
+- **Tag Format:** `{ tag: "@mainScenario" }` following Playwright tagging conventions
+- **Test Distribution:** Covers all major UITAP puzzle categories
+- **Execution Strategy:** Can be combined with other tags (e.g., `--grep "@mainScenario.*@ajax"`)
+
+**Branch Impact:** Enhanced test suite organization enabling focused execution of core UI Test Automation Playground challenges
