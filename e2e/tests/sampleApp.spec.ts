@@ -3,6 +3,16 @@ import { SampleAppPage } from "../pages/sampleAppPage";
 
 let sampleAppPage: SampleAppPage;
 
+const testUsername = "testuser";
+const testPassword = "testpass";
+
+const validUsername = "validuser";
+const validPassword = "pwd";
+
+const invalidPassword = "wrongpass";
+const emptyString = "";
+const specialUsername = "user@domain.com";
+
 test.beforeEach(async ({ page }) => {
   sampleAppPage = new SampleAppPage(page);
   await sampleAppPage.goto();
@@ -52,9 +62,7 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
   });
 
   test("should allow filling form fields", async ({ page }) => {
-    const testUsername = "testuser";
-    const testPassword = "testpass";
-
+    // Fill form fields
     await sampleAppPage.fillUsername(testUsername);
     await sampleAppPage.fillPassword(testPassword);
 
@@ -65,20 +73,20 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
 
   test("should clear form fields", async ({ page }) => {
     // Fill fields first
-    await sampleAppPage.fillUsername("testuser");
-    await sampleAppPage.fillPassword("testpass");
+    await sampleAppPage.fillUsername(testUsername);
+    await sampleAppPage.fillPassword(testPassword);
 
     // Clear fields
     await sampleAppPage.clearForm();
 
     const formValues = await sampleAppPage.getFormValues();
-    expect(formValues.username).toBe("");
-    expect(formValues.password).toBe("");
+    expect(formValues.username).toBe(emptyString);
+    expect(formValues.password).toBe(emptyString);
   });
 
   test("should login successfully with valid credentials", async ({ page }) => {
-    // Valid credentials: any non-empty username and password "pwd"
-    await sampleAppPage.login("validuser", "pwd");
+    // Valid credentials: any non-empty username and valid password
+    await sampleAppPage.login(validUsername, validPassword);
 
     // Verify successful login state
     await expect(sampleAppPage.loginStatus).toContainText("Welcome, validuser!");
@@ -93,7 +101,7 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
 
   test("should handle invalid password", async ({ page }) => {
     // Invalid credentials: wrong password
-    await sampleAppPage.login("testuser", "wrongpassword");
+    await sampleAppPage.login(testUsername, invalidPassword);
 
     // Verify error state
     await expect(sampleAppPage.loginStatus).toContainText("Invalid username/password");
@@ -107,13 +115,13 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
 
     // Verify fields are cleared after failed login
     const formValues = await sampleAppPage.getFormValues();
-    expect(formValues.username).toBe("");
-    expect(formValues.password).toBe("");
+    expect(formValues.username).toBe(emptyString);
+    expect(formValues.password).toBe(emptyString);
   });
 
   test("should handle empty username", async ({ page }) => {
     // Invalid credentials: empty username
-    await sampleAppPage.login("", "pwd");
+    await sampleAppPage.login(emptyString, validPassword);
 
     // Verify error state
     await expect(sampleAppPage.loginStatus).toContainText("Invalid username/password");
@@ -128,7 +136,7 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
 
   test("should handle both empty fields", async ({ page }) => {
     // Invalid credentials: both fields empty
-    await sampleAppPage.login("", "");
+    await sampleAppPage.login(emptyString, emptyString);
 
     // Verify error state
     await expect(sampleAppPage.loginStatus).toContainText("Invalid username/password");
@@ -140,7 +148,7 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
 
   test("should logout successfully when logged in", async ({ page }) => {
     // First login
-    await sampleAppPage.login("testuser", "pwd");
+    await sampleAppPage.login(validUsername, validPassword);
     await expect(sampleAppPage.loginButton).toContainText("Log Out");
 
     // Then logout
@@ -158,21 +166,21 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
 
     // Verify fields are cleared after logout
     const formValues = await sampleAppPage.getFormValues();
-    expect(formValues.username).toBe("");
-    expect(formValues.password).toBe("");
+    expect(formValues.username).toBe(emptyString);
+    expect(formValues.password).toBe(emptyString);
   });
 
   test("should handle multiple login attempts", async ({ page }) => {
     // First failed attempt
-    await sampleAppPage.login("user1", "wrong");
+    await sampleAppPage.login("user1", invalidPassword);
     await expect(sampleAppPage.loginStatus).toContainText("Invalid username/password");
 
     // Second failed attempt with different credentials
-    await sampleAppPage.login("user2", "alsowrong");
+    await sampleAppPage.login("user2", "also" + invalidPassword);
     await expect(sampleAppPage.loginStatus).toContainText("Invalid username/password");
 
     // Successful attempt
-    await sampleAppPage.login("user3", "pwd");
+    await sampleAppPage.login("user3", validPassword);
     await expect(sampleAppPage.loginStatus).toContainText("Welcome, user3!");
 
     const isLoggedIn = await sampleAppPage.isLoggedIn();
@@ -185,12 +193,12 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
     expect(statusClass).toContain("text-info");
 
     // Failed login - danger class
-    await sampleAppPage.login("user", "wrong");
+    await sampleAppPage.login(testUsername, invalidPassword);
     statusClass = await sampleAppPage.getLoginStatusClass();
     expect(statusClass).toContain("text-danger");
 
     // Successful login - success class
-    await sampleAppPage.login("user", "pwd");
+    await sampleAppPage.login(validUsername, validPassword);
     statusClass = await sampleAppPage.getLoginStatusClass();
     expect(statusClass).toContain("text-success");
 
@@ -201,8 +209,7 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
   });
 
   test("should handle special characters in username", async ({ page }) => {
-    const specialUsername = "user@domain.com";
-    await sampleAppPage.login(specialUsername, "pwd");
+    await sampleAppPage.login(specialUsername, validPassword);
 
     await expect(sampleAppPage.loginStatus).toContainText(`Welcome, ${specialUsername}!`);
 
