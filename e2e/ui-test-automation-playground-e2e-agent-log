@@ -591,3 +591,109 @@
 - **Execution Strategy:** Can be combined with other tags (e.g., `--grep "@mainScenario.*@ajax"`)
 
 **Branch Impact:** Enhanced test suite organization enabling focused execution of core UI Test Automation Playground challenges
+
+### 2025-10-07 - Makefile Creation and Snapshot Test Organization
+- **Branch Purpose:** Comprehensive test execution automation and visual regression testing enhancement
+- **Created:** `Makefile` in `/e2e/` directory with 30+ commands for simplified test execution
+
+#### **Makefile Features:**
+
+**1. Core Test Commands (User Requested):**
+- `make test` - Run all tests
+- `make mainScenarioTest` - Run tests with @mainScenario tag (21 core UITAP scenarios)
+- `make testDebug` - Run tests in debug mode with breakpoints and step-through
+- `make createSnapshots` - Run tests with @snapshot tag and --update-snapshots for baseline creation
+- `make testHeaded` - Run tests in headed browsers (visible UI for debugging)
+
+**2. Component-Specific Test Commands:**
+- `make ajaxTest` - AJAX functionality tests (@ajax tag)
+- `make dynamicTableTest` - Dynamic table data extraction tests (@dynamictable tag)
+- `make overlappedTest` - Overlapped element interaction tests (@overlapped tag)
+- `make progressBarTest` - Progress bar timing precision tests (@progressbar tag)
+- `make sampleAppTest` - Authentication workflow tests (@sampleapp tag)
+- `make textInputTest` - Text input and DOM event tests (@textinput tag)
+- `make visibilityTest` - Element visibility mechanism tests (@visibility tag)
+- `make homepageTest` - Homepage navigation tests (@homepage tag)
+
+**3. Advanced Test Options:**
+- `make testParallel` - Maximum parallelism for fast execution
+- `make testSlow` - Single worker with extended timeouts for debugging
+- `make testCI` - CI/CD configuration with retries and HTML reporting
+
+**4. Reporting & Utilities:**
+- `make testReport` - Generate and display HTML test report
+- `make openReport` - Open existing HTML report in browser
+- `make clean` - Remove test artifacts and reports
+- `make install` - Setup dependencies and Playwright browsers
+- `make validateSetup` - Environment validation and version checks
+- `make stats` - Display comprehensive test suite statistics
+
+#### **@snapshot Tag Implementation:**
+
+**Visual Regression Testing Enhancement:**
+- **Added @snapshot tag** to all 4 screenshot tests in `visibility.spec.ts`
+- **Multiple Tag Support:** Tests now use array format for multiple tags:
+  - `{ tag: ["@mainScenario", "@snapshot"] }` for core visual regression tests
+  - `{ tag: "@snapshot" }` for additional visual tests
+- **Screenshot Tests Tagged:**
+  - "should take screenshot of Hide button after Hide click" - `@snapshot`
+  - "should take screenshot of Overlapped button after Hide click" - `@mainScenario` + `@snapshot`
+  - "should take screenshot of Opacity 0 button after Hide click" - `@mainScenario` + `@snapshot`
+  - "should take screenshot of Offscreen button after Hide click" - `@mainScenario` + `@snapshot`
+
+#### **Makefile Usage Examples:**
+
+**Development Workflow:**
+```bash
+make mainScenarioTest    # Quick validation of core scenarios
+make createSnapshots     # Update visual baselines when UI changes
+make testHeaded          # Debug test failures with visible browser
+make ajaxTest           # Test specific component after changes
+```
+
+**CI/CD Integration:**
+```bash
+make testCI             # Full test suite with retries and reporting
+make clean && make test # Clean execution environment
+make validateSetup      # Verify environment before testing
+```
+
+**Debugging Workflow:**
+```bash
+make debugMainScenario  # Debug core scenarios with breakpoints
+make testSlow          # Slow execution for complex timing issues
+make stats             # Analyze test suite composition
+```
+
+#### **Benefits:**
+
+**1. Developer Experience:**
+- **Simplified Commands:** No need to remember complex Playwright CLI options
+- **Contextual Help:** `make help` provides comprehensive command reference
+- **Workflow Automation:** Common test patterns automated (clean + test + report)
+
+**2. Test Organization:**
+- **Tag-Based Execution:** Easy filtering by component or test type
+- **Visual Regression Control:** Dedicated commands for snapshot management
+- **Debugging Support:** Multiple debug modes for different scenarios
+
+**3. CI/CD Integration:**
+- **Standardized Commands:** Consistent interface across environments
+- **Environment Validation:** Setup verification before test execution
+- **Reporting Integration:** Automated HTML report generation
+
+**4. Quality Assurance:**
+- **Focused Testing:** Component-specific commands for targeted validation
+- **Performance Options:** Parallel vs sequential execution choices
+- **Maintenance Tools:** Clean, install, and stats commands for housekeeping
+
+#### **Implementation Details:**
+- **Total Commands:** 30+ make targets covering all test scenarios
+- **Tag Coverage:** All 8 existing test tags supported with dedicated commands
+- **Visual Testing:** 4 screenshot tests now properly tagged for snapshot workflows
+- **Help System:** Comprehensive help with examples and command descriptions
+- **Error Handling:** Proper shell scripting with status messages and validation
+
+**Branch Impact:** Dramatically improved developer experience with streamlined test execution, enhanced visual regression testing capabilities, and comprehensive automation for all test workflows
+
+````
