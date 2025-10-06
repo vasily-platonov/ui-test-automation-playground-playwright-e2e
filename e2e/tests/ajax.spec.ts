@@ -24,7 +24,7 @@ test.describe("Ajax Page Tests", { tag: "@ajax" }, () => {
     await expect(ajaxPage.spinner).not.toBeVisible();
   });
 
-  test("should trigger ajax request and load content", async () => {
+  test("should trigger ajax request and load content", { tag: "@mainScenario" }, async () => {
     // Click the AJAX button
     await ajaxPage.clickAjaxButton();
 

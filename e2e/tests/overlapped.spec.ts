@@ -31,7 +31,7 @@ test.describe("Overlapped Element Tests", { tag: "@overlapped" }, () => {
     await expect(overlappedPage.idInput).toHaveValue(testId);
   });
 
-  test("should fill name field successfully", async () => {
+  test("should fill name field successfully", { tag: "@mainScenario" }, async () => {
     const testName = "Name Field Test";
 
     await overlappedPage.fillName(testName);

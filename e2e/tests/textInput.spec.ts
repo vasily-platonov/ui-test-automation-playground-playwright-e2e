@@ -72,7 +72,7 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
     expect(await textInputPage.getInputValue()).toBe("");
   });
 
-  test("should update button text when using DOM fill method", async () => {
+  test("should update button text when using DOM fill method", { tag: "@mainScenario" }, async () => {
     const newButtonName = "Updated Button DOM";
     const initialButtonText = await textInputPage.getButtonText();
 
@@ -86,7 +86,7 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
     expect(updatedButtonText).not.toBe(initialButtonText);
   });
 
-  test("should update button text when using keyboard input method", async () => {
+  test("should update button text when using keyboard input method", { tag: "@mainScenario" }, async () => {
     const newButtonName = "Updated Button Keyboard";
     const initialButtonText = await textInputPage.getButtonText();
 
@@ -127,7 +127,7 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
     expect(buttonTextAfterClick).toBe(initialButtonText);
   });
 
-  test("should handle special characters in button name", async () => {
+  test("should handle special characters in button name", { tag: "@mainScenario" }, async () => {
     const specialButtonName = "Special!@#$%^&*()_+{}[]";
     const initialButtonText = await textInputPage.getButtonText();
 
