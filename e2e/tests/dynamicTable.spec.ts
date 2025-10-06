@@ -89,7 +89,7 @@ test.describe("Dynamic Table tests", { tag: "@dynamictable" }, () => {
   test("Chrome CPU value in table should equal value in warning label", async ({ page }) => {
     await dynamicTablePage.waitForTableToLoad();
 
-    const comparison = await dynamicTablePage.compareChromeCpuValues();
+    const comparison = await dynamicTablePage.chromeCpuValues();
 
     // Verify comparison object structure
     expect(comparison).toHaveProperty("tableValue");
