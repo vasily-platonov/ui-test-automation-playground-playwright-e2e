@@ -84,7 +84,7 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
     expect(formValues.password).toBe(emptyString);
   });
 
-  test("should login successfully with valid credentials", async ({ page }) => {
+  test("should login successfully with valid credentials", { tag: "@mainScenario" }, async ({ page }) => {
     // Valid credentials: any non-empty username and valid password
     await sampleAppPage.login(validUsername, validPassword);
 
@@ -99,7 +99,7 @@ test.describe("Sample App tests", { tag: "@sampleapp" }, () => {
     expect(isStatusSuccess).toBe(true);
   });
 
-  test("should handle invalid password", async ({ page }) => {
+  test("should handle invalid password", { tag: "@mainScenario" }, async ({ page }) => {
     // Invalid credentials: wrong password
     await sampleAppPage.login(testUsername, invalidPassword);
 

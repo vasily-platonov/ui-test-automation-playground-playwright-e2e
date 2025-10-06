@@ -86,7 +86,7 @@ test.describe("Dynamic Table tests", { tag: "@dynamictable" }, () => {
     expect(labelText).toContain("Chrome CPU:");
   });
 
-  test("Chrome CPU value in table should equal value in warning label", async ({ page }) => {
+  test("Chrome CPU value in table should equal value in warning label", { tag: "@mainScenario" }, async ({ page }) => {
     await dynamicTablePage.waitForTableToLoad();
 
     const comparison = await dynamicTablePage.chromeCpuValues();

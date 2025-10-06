@@ -64,7 +64,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
     expect(resultData.duration).not.toBeNull();
   });
 
-  test("should use playwright .toPass assertion to wait for target progress", async () => {
+  test("should use playwright .toPass assertion to wait for target progress", { tag: "@mainScenario" }, async () => {
     // Start the progress
     await progressBarPage.clickStart();
 
@@ -118,7 +118,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
     }
   });
 
-  test("should use POM waitForProgress method to wait for target progress", async () => {
+  test("should use POM waitForProgress method to wait for target progress", { tag: "@mainScenario" }, async () => {
     // Start the progress
     await progressBarPage.clickStart();
 
