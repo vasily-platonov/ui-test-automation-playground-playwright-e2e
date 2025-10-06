@@ -26,6 +26,33 @@ node app.js
 http://localhost:3000
 ```
 
+## E2E Test Automation
+
+This repository includes a comprehensive **Playwright-based E2E test suite** that covers some UI automation challenges provided by the playground. The test suite implements best practices including the Page Object Model pattern and provides easy-to-use commands for test execution.
+
+📖 **[Complete E2E Testing Documentation](e2e/README.md)**
+
+### Quick Start for E2E Tests
+
+```bash
+# Navigate to e2e directory
+cd e2e
+
+# Install dependencies
+make install
+
+# Run all tests
+make test
+
+# Run core scenarios only  
+make mainScenarioTest
+
+# Run with visible browser (debugging)
+make testHeaded
+```
+
+The E2E tests automatically start the UITAP application server, so you don't need to run it manually when testing.
+
 ## Software Stack
 - [Node.js](https://github.com/nodejs/node)
 - [Express](https://github.com/expressjs/express/)
