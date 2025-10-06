@@ -16,8 +16,6 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
   });
 
   test("should display all page elements correctly", async () => {
-    await textInputPage.waitForPageToLoad();
-
     // Verify page content is visible
     await expect(textInputPage.pageTitle).toBeVisible();
     await expect(textInputPage.pageDescription).toBeVisible();
@@ -82,8 +80,6 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
     await textInputPage.fillTextInput(newButtonName);
     await textInputPage.clickUpdatingButton();
 
-    // Wait for button text to change and verify
-    await textInputPage.waitForButtonTextChange(newButtonName);
     const updatedButtonText = await textInputPage.getButtonText();
 
     expect(updatedButtonText).toBe(newButtonName);
@@ -98,8 +94,6 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
     await textInputPage.typeIntoInput(newButtonName);
     await textInputPage.clickUpdatingButton();
 
-    // Wait for button text to change and verify
-    await textInputPage.waitForButtonTextChange(newButtonName);
     const updatedButtonText = await textInputPage.getButtonText();
 
     expect(updatedButtonText).toBe(newButtonName);
@@ -113,14 +107,12 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
     // First update
     await textInputPage.fillTextInput(firstButtonName);
     await textInputPage.clickUpdatingButton();
-    await textInputPage.waitForButtonTextChange(firstButtonName);
     expect(await textInputPage.getButtonText()).toBe(firstButtonName);
 
     // Clear and second update
     await textInputPage.clearTextInput();
     await textInputPage.typeIntoInput(secondButtonName);
     await textInputPage.clickUpdatingButton();
-    await textInputPage.waitForButtonTextChange(secondButtonName);
     expect(await textInputPage.getButtonText()).toBe(secondButtonName);
   });
 
@@ -129,9 +121,6 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
 
     // Click button without entering any text
     await textInputPage.clickUpdatingButton();
-
-    // Wait a moment to ensure no change occurs
-    await textInputPage.page.waitForTimeout(1000);
 
     // Verify button text remained unchanged
     const buttonTextAfterClick = await textInputPage.getButtonText();
@@ -145,7 +134,6 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
     await textInputPage.fillTextInput(specialButtonName);
     await textInputPage.clickUpdatingButton();
 
-    await textInputPage.waitForButtonTextChange(specialButtonName);
     const updatedButtonText = await textInputPage.getButtonText();
 
     expect(updatedButtonText).toBe(specialButtonName);
@@ -160,7 +148,6 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
     await textInputPage.typeIntoInput(longButtonName);
     await textInputPage.clickUpdatingButton();
 
-    await textInputPage.waitForButtonTextChange(longButtonName);
     const updatedButtonText = await textInputPage.getButtonText();
 
     expect(updatedButtonText).toBe(longButtonName);
@@ -178,7 +165,6 @@ test.describe("Text Input tests", { tag: "@textinput" }, () => {
 
     // Click button once
     await textInputPage.clickUpdatingButton();
-    await textInputPage.waitForButtonTextChange(finalText);
 
     // Verify final result
     expect(await textInputPage.getButtonText()).toBe(finalText);

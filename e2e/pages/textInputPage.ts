@@ -88,26 +88,6 @@ export class TextInputPage {
   }
 
   /**
-   * Wait for the button text to change to expected value
-   */
-  async waitForButtonTextChange(expectedText: string, timeout: number = 5000) {
-    await this.updatingButton.waitFor({
-      state: "visible",
-      timeout: timeout,
-    });
-
-    // Wait for the button text to match expected value
-    await this.page.waitForFunction(
-      ({ selector, expected }) => {
-        const button = document.querySelector(selector);
-        return button && button.textContent?.trim() === expected;
-      },
-      { selector: "#updatingButton", expected: expectedText },
-      { timeout }
-    );
-  }
-
-  /**
    * Get page title text
    */
   async getPageTitle() {
@@ -119,14 +99,5 @@ export class TextInputPage {
    */
   async getPageDescription() {
     return await this.pageDescription.textContent();
-  }
-
-  /**
-   * Wait for page to be fully loaded
-   */
-  async waitForPageToLoad() {
-    await this.textInput.waitFor({ state: "visible" });
-    await this.updatingButton.waitFor({ state: "visible" });
-    await this.form.waitFor({ state: "visible" });
   }
 }
