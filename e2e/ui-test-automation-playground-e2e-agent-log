@@ -442,3 +442,75 @@
   - Same result text validation
 - **Key Difference:** Only the waiting mechanism varies - demonstrates both Playwright and POM approaches
 - **Benefits:** Tests now provide direct comparison of waiting strategies with identical validation logic
+
+### 2025-10-06 - Branch main-scenario-fixes: Comprehensive Test Suite Refactoring
+- **Branch Purpose:** Systematic refactoring to improve code consistency, remove unused methods, and enhance test reliability
+- **Files Modified:** 6 page objects and 5 test specifications across multiple components
+
+#### **Page Object Model Optimizations:**
+
+**1. DynamicTablePage.ts Changes:**
+- **Method Rename:** `compareChromeCpuValues()` → `chromeCpuValues()` for better naming consistency
+- **Rationale:** Removed "compare" prefix since method returns data rather than performing comparison logic
+
+**2. OverlappedPage.ts Cleanup:**
+- **Removed Unused Properties:** Eliminated `tagName` and `className` from element overlap detection
+- **Property Reduction:** Simplified element detection to only return `id` property
+- **Performance:** Reduced unnecessary DOM property extraction for cleaner overlap detection
+
+**3. TextInputPage.ts Streamlining:**
+- **Removed Methods:**
+  - `waitForButtonTextChange()` - Eliminated complex waiting logic from POM
+  - `waitForPageToLoad()` - Removed redundant page loading method
+- **POM Compliance:** Removed test scenario logic from page object, keeping only basic element interactions
+- **Simplified Architecture:** Page object now focuses purely on element access and data retrieval
+
+#### **Test Suite Consistency Improvements:**
+
+**4. Ajax.spec.ts Enhancement:**
+- **Added Action:** `await ajaxPage.loadedLabel.click()` after AJAX load completion
+- **Test Coverage:** Extended test to include interaction with loaded content
+- **User Simulation:** More realistic user behavior after AJAX completion
+
+**5. DynamicTable.spec.ts Method Update:**
+- **Method Call Update:** Updated to use renamed `chromeCpuValues()` method
+- **Consistency:** Aligned with page object method rename for proper integration
+
+**6. Overlapped.spec.ts Test Description:**
+- **Test Name Change:** "should fill all fields with smart overlap handling" → "should fill id and name fields simultaneously"
+- **Clarity:** More descriptive test name reflecting actual test behavior
+- **Accuracy:** Better describes the specific field handling being tested
+
+**7. ProgressBar.spec.ts Standardization:**
+- **Constant Extraction:** Added `const targetProgress = 75` at file level for consistency
+- **Test Name Updates:** 
+  - "should wait for 75% progress..." → "should use playwright .toPass assertion to wait for target progress"
+  - "should use POM waitForProgress..." → "should use POM waitForProgress method to wait for target progress"
+- **Comment Consistency:** Unified comments to refer to "target" instead of hardcoded "75%"
+- **Performance Logging:** Updated console messages to use generic "target" terminology
+
+**8. SampleApp.spec.ts Credential Standardization:**
+- **Constants Added:** Extracted all test credentials to file-level constants:
+  - `testUsername`, `testPassword` for general testing
+  - `validUsername`, `validPassword` for successful login scenarios
+  - `invalidPassword`, `emptyString`, `specialUsername` for edge cases
+- **Consistency:** All tests now use standardized credential constants
+- **Maintainability:** Single point of credential management for easy updates
+- **Code Clarity:** Removed inline credential strings throughout tests
+
+**9. TextInput.spec.ts Wait Method Removal:**
+- **Removed Calls:** Eliminated all `waitForButtonTextChange()` method calls from tests
+- **Simplified Logic:** Tests now rely on direct assertions without complex waiting
+- **Removed Timeouts:** Eliminated unnecessary `page.waitForTimeout(1000)` calls
+- **Cleaner Tests:** More straightforward test flow without redundant waiting mechanisms
+
+#### **Overall Impact:**
+- **Code Consistency:** Standardized naming conventions and method calls across all components
+- **Reduced Complexity:** Removed unnecessary waiting logic and unused properties
+- **Improved Maintainability:** Centralized constants and simplified method signatures
+- **Enhanced Readability:** Better test descriptions and consistent commenting
+- **POM Compliance:** Proper separation of concerns between page objects and test logic
+- **Performance:** Reduced overhead from unused property extraction and unnecessary waits
+- **Test Reliability:** More predictable test behavior with simplified assertion logic
+
+**Branch Status:** All changes committed and ready for merge with comprehensive refactoring complete

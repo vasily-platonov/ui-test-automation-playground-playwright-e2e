@@ -44,7 +44,7 @@ test.describe("Overlapped Element Tests", { tag: "@overlapped" }, () => {
     expect(isOverlapped).toBe(false);
   });
 
-  test("should fill all fields with smart overlap handling", async () => {
+  test("should fill id and name fields simultaneously", async () => {
     const testData = {
       id: "user-123",
       name: "Jane Smith",

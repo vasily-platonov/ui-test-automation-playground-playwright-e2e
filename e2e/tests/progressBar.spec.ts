@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { ProgressBarPage } from "../pages/progressBarPage";
 
 let progressBarPage: ProgressBarPage;
+const targetProgress = 75;
 
 test.beforeEach(async ({ page }) => {
   progressBarPage = new ProgressBarPage(page);
@@ -63,9 +64,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
     expect(resultData.duration).not.toBeNull();
   });
 
-  test("should wait for 75% progress and evaluate timing accuracy", async () => {
-    const targetProgress = 75;
-
+  test("should use playwright .toPass assertion to wait for target progress", async () => {
     // Start the progress
     await progressBarPage.clickStart();
 
@@ -75,7 +74,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
       expect(currentProgress).toBeGreaterThanOrEqual(targetProgress);
     }).toPass({ timeout: 25000 });
 
-    // Click stop immediately after reaching 75%
+    // Click stop immediately after reaching target
     await progressBarPage.clickStop();
 
     // Get the actual stopped value
@@ -87,7 +86,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
       `Target: ${targetProgress}%, Actual: ${finalProgress}%, Difference: ${resultData.difference}, Duration: ${resultData.duration}ms`
     );
 
-    // Verify we stopped at or after 75%
+    // Verify we stopped at or after target
     expect(finalProgress).toBeGreaterThanOrEqual(targetProgress);
 
     // Verify the result calculation is correct
@@ -109,7 +108,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
 
     // Log performance assessment
     if (accuracy === 0) {
-      console.log("🎯 Perfect accuracy - stopped exactly at 75%!");
+      console.log("🎯 Perfect accuracy - stopped exactly at target!");
     } else if (accuracy <= 2) {
       console.log("🟢 Excellent timing - within 2% of target");
     } else if (accuracy <= 5) {
@@ -119,9 +118,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
     }
   });
 
-  test("should use POM waitForProgress method to wait for 75% target", async () => {
-    const targetProgress = 75;
-
+  test("should use POM waitForProgress method to wait for target progress", async () => {
     // Start the progress
     await progressBarPage.clickStart();
 
@@ -140,7 +137,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
       `Target: ${targetProgress}%, Actual: ${finalProgress}%, Difference: ${resultData.difference}, Duration: ${resultData.duration}ms`
     );
 
-    // Verify we stopped at or after 75%
+    // Verify we stopped at or after target
     expect(finalProgress).toBeGreaterThanOrEqual(targetProgress);
 
     // Verify the result calculation is correct
@@ -162,7 +159,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
 
     // Log performance assessment
     if (accuracy === 0) {
-      console.log("🎯 Perfect accuracy - stopped exactly at 75%!");
+      console.log("🎯 Perfect accuracy - stopped exactly at target!");
     } else if (accuracy <= 2) {
       console.log("🟢 Excellent timing - within 2% of target");
     } else if (accuracy <= 5) {
@@ -171,6 +168,7 @@ test.describe("Progress Bar tests", { tag: "@progressbar" }, () => {
       console.log("🔴 Timing needs improvement - more than 5% off target");
     }
   });
+
   test("should verify progress text and width synchronization", async () => {
     await progressBarPage.clickStart();
     await progressBarPage.page.waitForTimeout(2500);

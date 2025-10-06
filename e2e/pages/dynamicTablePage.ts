@@ -121,7 +121,7 @@ export class DynamicTablePage {
   /**
    * Compare Chrome CPU values between table and label
    */
-  async compareChromeCpuValues() {
+  async chromeCpuValues() {
     const tableCpuValue = await this.getCpuValueForProcess("Chrome");
     const labelCpuValue = await this.getChromeCpuFromLabel();
 
