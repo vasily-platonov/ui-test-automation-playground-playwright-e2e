@@ -32,6 +32,9 @@ test.describe("Ajax Page Tests", { tag: "@ajax" }, () => {
     await expect(ajaxPage.loadedLabel).toBeVisible({ timeout: 20000 });
     await expect(ajaxPage.loadedLabel).toHaveText(/Data loaded with AJAX get request./);
 
+    // Click on the loaded label
+    await ajaxPage.loadedLabel.click();
+
     // Verify content div is no longer empty
     await expect(ajaxPage.contentDiv).not.toBeEmpty();
   });
